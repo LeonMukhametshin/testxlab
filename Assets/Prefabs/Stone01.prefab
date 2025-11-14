@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 290152856347440602}
   - component: {fileID: -5600303897734131752}
   - component: {fileID: 1642163750799754880}
+  - component: {fileID: 1987877332689872068}
   m_Layer: 0
   m_Name: Stone01
   m_TagString: Untagged
@@ -148,9 +149,21 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8400891820093294539}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c69966242badcce41965fa80a2a2c096, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Golf.StoneCollisionLoger
   m_collisionLayers: {fileID: 11400000, guid: 5594c39b60fda5149bc7c4af21938eca, type: 2}
+--- !u!114 &1987877332689872068
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8400891820093294539}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b09d14152c6f4d45bc93160910345e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Golf.Stone

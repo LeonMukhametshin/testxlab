@@ -10,7 +10,7 @@ namespace Golf
 
         private void OnCollisionEnter(Collision collision)
         {
-            if(collision.gameObject.GetComponent<Stick>())
+            if (collision.gameObject.GetComponent<Stick>())
             {
                 Hit?.Invoke(this);
             }

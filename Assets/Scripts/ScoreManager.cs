@@ -18,26 +18,31 @@ namespace Golf
 
         public event Action<int> ScoreChanged;
 
-        public int CurrentScore => m_currentScore;
+        public int Score
+        {
+            get => m_score;
+            private set
+            {
+                m_score = value;
+                ScoreChanged?.Invoke(m_score);
+            }
+        }
+
         public int CurrentMissedCount => m_currentMissedCount;
 
         private static ScoreManager m_instance;
 
-        private int m_currentScore;
+        private int m_score;
         private int m_currentMissedCount; 
-        private int m_maxMissedCount = 3;
 
-        private ScoreManager(int currentScore = 0, int currentMissedCount = 0, int maxMissedCount = 3)
+        private ScoreManager(int currentScore = 0, int currentMissedCount = 0)
         {
-            m_currentScore = currentScore;
             m_currentMissedCount = currentMissedCount;
-            m_maxMissedCount = maxMissedCount;
         }
 
         public void Hit()
         {
-            m_currentScore++;
-            ScoreChanged?.Invoke(m_currentScore);
+            Score++;
         }
 
         public void Miss()
@@ -45,11 +50,10 @@ namespace Golf
             m_currentMissedCount++;
         }
 
-        public void Clear()
+        public void Reset()
         {
-            m_currentScore = 0;
-            m_currentMissedCount = m_maxMissedCount;
-            ScoreChanged?.Invoke(m_currentScore);
+            Score = 0;
+            m_currentMissedCount = 0;
         }
     }
 }

@@ -1,14 +1,25 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Golf
 {
     public class LevelController : MonoBehaviour
     {
+        public event Action Finished;
+
         [SerializeField, Min(0.1f)] private float m_spawnRate = 0.5f;
+        [SerializeField] private int m_maxMissedCount = 3;
 
         [SerializeField] private StoneSpawner m_stoneSpawner;
 
         private float m_time;
+        private List<Stone> m_stones;
+
+        private void Awake()
+        {
+            m_stones = new();
+        }
 
         private void Update()
         {
@@ -37,23 +48,33 @@ namespace Golf
 
         private void OnHitStone(Stone stone)
         {
-            stone.Hit -= OnHitStone;
-            stone.Missed -= OnMissed;
-
+            UnsubscribeStone(stone);
             ScoreManager.Instance?.Hit();
         }
 
         private void OnMissed(Stone stone)
         {
-            stone.Hit -= OnHitStone;
-            stone.Missed -= OnMissed;
+            UnsubscribeStone(stone);
 
             ScoreManager.Instance?.Miss();
 
-            if (ScoreManager.Instance?.CurrentMissedCount <= 0)
+            if (ScoreManager.Instance?.CurrentMissedCount >= m_maxMissedCount)
             {
-                // Event GameOver
+                Finished?.Invoke();
+
+                foreach (var item in m_stones)
+                {
+                    Destroy(item.gameObject);
+                }
+
+                m_stones.Clear();
             }
+        }
+
+        private void UnsubscribeStone(Stone stone)
+        {
+            stone.Hit -= OnHitStone;
+            stone.Missed -= OnMissed;
         }
     }
 }

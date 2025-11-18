@@ -7,16 +7,14 @@ namespace Golf
     {
         [SerializeField] private Text m_scoreText;
 
-        [SerializeField] private ScoreManager m_scoreManager;
-
         private void OnEnable()
         {
-            m_scoreManager.ScoreChanged += UpdateScoreText;
+            ScoreManager.Instance.ScoreChanged += UpdateScoreText;
         }
 
         private void OnDisable()
         {
-            m_scoreManager.ScoreChanged -= UpdateScoreText;
+            ScoreManager.Instance.ScoreChanged -= UpdateScoreText;
         }
 
         private void UpdateScoreText(int score)

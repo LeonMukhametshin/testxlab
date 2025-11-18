@@ -37,10 +37,5 @@ namespace Old
                 m_isMove = false;
             }
         }
-
-        private void OnDestroy()
-        {
-            Debug.Log("Удален");
-        }
     }
 }

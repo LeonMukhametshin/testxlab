@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace Golf
@@ -7,8 +6,7 @@ namespace Golf
     {
         [SerializeField, Min(0.1f)] private float m_spawnRate = 0.5f;
 
-        [SerializeField] private StoneSpawner m_stomeSpawner;
-        [SerializeField] private ScoreManager m_scoreManager;
+        [SerializeField] private StoneSpawner m_stoneSpawner;
 
         private float m_time;
 
@@ -31,7 +29,7 @@ namespace Golf
 
         private void SpawnStoneWithEvents()
         {
-            Stone stone = m_stomeSpawner.Spawn();
+            Stone stone = m_stoneSpawner.Spawn();
 
             stone.Hit += OnHitStone;
             stone.Missed += OnMissed;
@@ -42,7 +40,7 @@ namespace Golf
             stone.Hit -= OnHitStone;
             stone.Missed -= OnMissed;
 
-            m_scoreManager?.Hit();
+            ScoreManager.Instance?.Hit();
         }
 
         private void OnMissed(Stone stone)
@@ -50,7 +48,12 @@ namespace Golf
             stone.Hit -= OnHitStone;
             stone.Missed -= OnMissed;
 
-            m_scoreManager?.Miss();
+            ScoreManager.Instance?.Miss();
+
+            if (ScoreManager.Instance?.CurrentMissedCount <= 0)
+            {
+                // Event GameOver
+            }
         }
     }
 }

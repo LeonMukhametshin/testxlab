@@ -14,6 +14,7 @@ namespace Golf
         public void Init(GameStateMachine gameStateMachine)
         {
             m_gameStateMachine = gameStateMachine; 
+            m_gameScoreText.gameObject.SetActive(false);
         }
 
         public void Enter()
@@ -22,13 +23,10 @@ namespace Golf
 
             m_levelController.enabled = true;
             m_playerController.enabled = true;
+            m_gameScoreText.gameObject.SetActive(true);
 
             m_levelController.Finished += OnFinished;
         }
-
-        private void OnFinished()
-            => m_gameStateMachine.Enter<GameOverState>();
-
 
         public void Exit()
         {
@@ -38,5 +36,8 @@ namespace Golf
 
             m_levelController.Finished -= OnFinished;
         }
+
+        private void OnFinished()
+            => m_gameStateMachine.Enter<GameOverState>();
     }
 }

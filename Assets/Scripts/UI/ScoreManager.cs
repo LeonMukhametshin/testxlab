@@ -37,6 +37,7 @@ namespace Golf
 
         private ScoreManager(int currentScore = 0, int currentMissedCount = 0)
         {
+            m_score = currentScore;
             m_currentMissedCount = currentMissedCount;
         }
 

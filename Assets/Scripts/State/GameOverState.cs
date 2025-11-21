@@ -14,10 +14,10 @@ namespace Golf
 
         private GameStateMachine m_gameStateMachine;
 
-
         public void Init(GameStateMachine gameStateMachine)
         {
             m_gameStateMachine = gameStateMachine;
+            m_gameOverPanel.SetActive(false);
         }
 
         public void Enter()
@@ -27,11 +27,12 @@ namespace Golf
             m_gameOverPanel.SetActive(true);
         }
 
-        private void OnClicked() => m_gameStateMachine.Enter<MainMenuState>();
-
         public void Exit()
         {
             m_gameOverPanel.SetActive(false);
+            m_backMainMenu?.onClick.RemoveListener(OnClicked);
         }
+
+        private void OnClicked() => m_gameStateMachine.Enter<MainMenuState>();
     }
 }

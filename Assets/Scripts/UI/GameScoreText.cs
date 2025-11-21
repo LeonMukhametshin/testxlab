@@ -10,6 +10,7 @@ namespace Golf
         private void OnEnable()
         {
             ScoreManager.Instance.ScoreChanged += UpdateScoreText;
+            UpdateScoreText(ScoreManager.Instance.Score);
         }
 
         private void OnDisable()

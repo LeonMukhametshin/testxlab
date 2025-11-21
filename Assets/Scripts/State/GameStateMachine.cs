@@ -14,13 +14,18 @@ namespace Golf
             m_mainMenuState.Init(this);
             m_gamePlayState.Init(this);
             m_boorstrapState.Init(this);
+            m_gameOverState.Init(this);
         }
 
         private void Start() => Enter<BootstrapState>();
 
         public void Enter<T>()
         {
-            if(typeof(T) == typeof(MainMenuState))
+            if (typeof(T) == typeof(BootstrapState))
+            {
+                m_boorstrapState.Enter();
+            }
+            else if (typeof(T) == typeof(MainMenuState))
             {
                 m_gameOverState.Exit();
                 m_gamePlayState.Exit();
@@ -29,16 +34,16 @@ namespace Golf
             }
             else if (typeof(T) == typeof(GamePlayState))
             {
+                m_boorstrapState.Exit();
                 m_mainMenuState.Exit();
+                m_gameOverState.Exit();
+
                 m_gamePlayState.Enter();
-            }
-            else if(typeof(T) == typeof(BootstrapState))
-            {
-                m_boorstrapState.Enter();
-            }
+            }  
             else if (typeof(T) == typeof(GameOverState))
             {
-                m_gamePlayState.Enter();
+                m_gamePlayState.Exit();
+                m_gameOverState.Enter();
             }
         }
     }

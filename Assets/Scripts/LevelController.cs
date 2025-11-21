@@ -44,10 +44,13 @@ namespace Golf
 
             stone.Hit += OnHitStone;
             stone.Missed += OnMissed;
+
+            m_stones.Add(stone);    
         }
 
         private void OnHitStone(Stone stone)
         {
+            Debug.Log("+++");
             UnsubscribeStone(stone);
             ScoreManager.Instance?.Hit();
         }

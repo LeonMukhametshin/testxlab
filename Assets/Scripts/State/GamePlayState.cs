@@ -3,36 +3,38 @@ using UnityEngine;
 
 namespace Golf
 {
-    public class GamePlayState : MonoBehaviour
+    public class GamePlayState : StateBase
     {
+        [SerializeField] private GameObject m_gameplayPanel;
+
         [SerializeField] private PlayerController m_playerController;
         [SerializeField] private LevelController m_levelController;
         [SerializeField] private GameScoreText m_gameScoreText;
 
         private GameStateMachine m_gameStateMachine;
 
-        public void Init(GameStateMachine gameStateMachine)
+        public override void Initialize(GameStateMachine gameStateMachine)
         {
-            m_gameStateMachine = gameStateMachine; 
-            m_gameScoreText.gameObject.SetActive(false);
+            m_gameStateMachine = gameStateMachine;
+            m_gameplayPanel.gameObject.SetActive(false);
         }
 
-        public void Enter()
+        public override void Enter()
         {
             ScoreManager.Instance.Reset();
 
             m_levelController.enabled = true;
             m_playerController.enabled = true;
-            m_gameScoreText.gameObject.SetActive(true);
+            m_gameplayPanel.gameObject.SetActive(true);
 
             m_levelController.Finished += OnFinished;
         }
 
-        public void Exit()
+        public override void Exit()
         {
             m_levelController.enabled = false;
             m_playerController.enabled = false;
-            m_gameScoreText.gameObject.SetActive(false);
+            m_gameplayPanel.gameObject.SetActive(false);
 
             m_levelController.Finished -= OnFinished;
         }

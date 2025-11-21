@@ -4,46 +4,33 @@ namespace Golf
 {
     public class GameStateMachine : MonoBehaviour
     {
-        [SerializeField] private MainMenuState m_mainMenuState;
-        [SerializeField] private GamePlayState m_gamePlayState;
-        [SerializeField] private BootstrapState m_boorstrapState;
-        [SerializeField] private GameOverState m_gameOverState;
+        [SerializeField] private StateBase[] m_states;
+
+        private StateBase m_currentState;
 
         private void Awake()
         {
-            m_mainMenuState.Init(this);
-            m_gamePlayState.Init(this);
-            m_boorstrapState.Init(this);
-            m_gameOverState.Init(this);
+            foreach(var state in m_states)
+            {
+                state.Initialize(this);
+            }
         }
 
         private void Start() => Enter<BootstrapState>();
 
-        public void Enter<T>()
+        public void Enter<T>() where T : StateBase
         {
-            if (typeof(T) == typeof(BootstrapState))
-            {
-                m_boorstrapState.Enter();
-            }
-            else if (typeof(T) == typeof(MainMenuState))
-            {
-                m_gameOverState.Exit();
-                m_gamePlayState.Exit();
+            m_currentState?.Exit();
 
-                m_mainMenuState.Enter();
-            }
-            else if (typeof(T) == typeof(GamePlayState))
+            foreach(var state in m_states)
             {
-                m_boorstrapState.Exit();
-                m_mainMenuState.Exit();
-                m_gameOverState.Exit();
-
-                m_gamePlayState.Enter();
-            }  
-            else if (typeof(T) == typeof(GameOverState))
-            {
-                m_gamePlayState.Exit();
-                m_gameOverState.Enter();
+                if(state.GetType() == typeof(T))
+                {
+                    m_currentState = state;
+                    state.Enter();
+                  
+                    break;
+                }
             }
         }
     }

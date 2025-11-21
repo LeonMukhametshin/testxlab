@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 namespace Golf
 {
@@ -17,6 +18,8 @@ namespace Golf
         }
 
         public event Action<int> ScoreChanged;
+        public event Action<int> RecordChanged;
+
 
         public int Score
         {
@@ -25,6 +28,19 @@ namespace Golf
             {
                 m_score = value;
                 ScoreChanged?.Invoke(m_score);
+            }
+        }
+
+        public int Record
+        {
+            get => PlayerPrefs.GetInt(GlobalConstans.Record, 0);
+            private set
+            {
+                if (Record <= value)
+                {
+                    PlayerPrefs.SetInt(GlobalConstans.Record, value);
+                    RecordChanged?.Invoke(Record);
+                }
             }
         }
 
@@ -50,6 +66,8 @@ namespace Golf
         {
             m_currentMissedCount++;
         }
+
+        public void UpdateRecord() => Record = Score;
 
         public void Reset()
         {

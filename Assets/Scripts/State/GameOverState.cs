@@ -1,11 +1,10 @@
-﻿using System;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Golf
 {
-    public class GameOverState : MonoBehaviour
+    public class GameOverState : StateBase
     {
         [SerializeField] private GameObject m_gameOverPanel;
 
@@ -14,20 +13,23 @@ namespace Golf
 
         private GameStateMachine m_gameStateMachine;
 
-        public void Init(GameStateMachine gameStateMachine)
+        public override void Initialize(GameStateMachine gameStateMachine)
         {
             m_gameStateMachine = gameStateMachine;
             m_gameOverPanel.SetActive(false);
         }
 
-        public void Enter()
+        public override void Enter()
         {
             m_scoreText.text = ScoreManager.Instance.Score.ToString();
+
+            ScoreManager.Instance.UpdateRecord();
+
             m_backMainMenu.onClick.AddListener(OnClicked);
             m_gameOverPanel.SetActive(true);
         }
 
-        public void Exit()
+        public override void Exit()
         {
             m_gameOverPanel.SetActive(false);
             m_backMainMenu?.onClick.RemoveListener(OnClicked);

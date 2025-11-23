@@ -20,7 +20,6 @@ namespace Golf
         public event Action<int> ScoreChanged;
         public event Action<int> RecordChanged;
 
-
         public int Score
         {
             get => m_score;

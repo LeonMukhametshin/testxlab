@@ -11,15 +11,11 @@ namespace Golf
         [SerializeField, Min(0.1f)] private float m_spawnRate = 0.5f;
         [SerializeField] private int m_maxMissedCount = 3;
 
+        [SerializeField] private HealthUI m_healthUI;
         [SerializeField] private StoneSpawner m_stoneSpawner;
 
         private float m_time;
         private List<Stone> m_stones;
-
-        private void Awake()
-        {
-            m_stones = new();
-        }
 
         private void Update()
         {
@@ -50,7 +46,6 @@ namespace Golf
 
         private void OnHitStone(Stone stone)
         {
-            Debug.Log("+++");
             UnsubscribeStone(stone);
             ScoreManager.Instance?.Hit();
         }
@@ -60,6 +55,7 @@ namespace Golf
             UnsubscribeStone(stone);
 
             ScoreManager.Instance?.Miss();
+            m_healthUI.DrawHealthPoint(m_maxMissedCount - ScoreManager.Instance.CurrentMissedCount);
 
             if (ScoreManager.Instance?.CurrentMissedCount >= m_maxMissedCount)
             {
@@ -78,6 +74,12 @@ namespace Golf
         {
             stone.Hit -= OnHitStone;
             stone.Missed -= OnMissed;
+        }
+
+        public void Reset()
+        {
+            m_stones = new();
+            m_healthUI.DrawHealthPoint(m_maxMissedCount);
         }
     }
 }

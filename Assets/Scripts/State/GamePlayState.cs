@@ -28,6 +28,7 @@ namespace Golf
             m_gameplayPanel.gameObject.SetActive(true);
 
             m_levelController.Finished += OnFinished;
+            m_levelController.Reset();
         }
 
         public override void Exit()

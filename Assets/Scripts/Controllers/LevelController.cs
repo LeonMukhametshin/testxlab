@@ -8,11 +8,9 @@ namespace Golf
     {
         public event Action Finished;
 
-        [SerializeField, Min(0.1f)] private float m_spawnRate = 0.5f;
-        [SerializeField] private int m_maxMissedCount = 3;
-
         [SerializeField] private HealthUI m_healthUI;
         [SerializeField] private StoneSpawner m_stoneSpawner;
+        [SerializeField] private DifficultySettings m_gameDifficulty;
 
         private float m_time;
         private List<Stone> m_stones;
@@ -26,7 +24,7 @@ namespace Golf
         {
             m_time += Time.deltaTime;
 
-            if (m_time >= m_spawnRate)
+            if (m_time >= m_gameDifficulty.SpawnRate)
             {
                 SpawnStoneWithEvents();
 
@@ -47,7 +45,7 @@ namespace Golf
         private void OnHitStone(Stone stone)
         {
             UnsubscribeStone(stone);
-            ScoreManager.Instance?.Hit();
+            ScoreManager.Instance?.Hit(1);
         }
 
         private void OnMissed(Stone stone)
@@ -55,9 +53,9 @@ namespace Golf
             UnsubscribeStone(stone);
 
             ScoreManager.Instance?.Miss();
-            m_healthUI.DrawHealthPoint(m_maxMissedCount - ScoreManager.Instance.CurrentMissedCount);
+            m_healthUI.DrawHealthPoint(m_gameDifficulty.MaxMissedCount - ScoreManager.Instance.CurrentMissedCount);
 
-            if (ScoreManager.Instance?.CurrentMissedCount >= m_maxMissedCount)
+            if (ScoreManager.Instance?.CurrentMissedCount >= m_gameDifficulty.MaxMissedCount)
             {
                 Finished?.Invoke();
 
@@ -79,7 +77,7 @@ namespace Golf
         public void Reset()
         {
             m_stones = new();
-            m_healthUI.DrawHealthPoint(m_maxMissedCount);
+            m_healthUI.DrawHealthPoint(m_gameDifficulty.MaxMissedCount);
         }
     }
 }

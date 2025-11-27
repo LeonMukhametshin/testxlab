@@ -21,7 +21,7 @@ namespace Golf
 
         public override void Enter()
         {
-            m_scoreText.text = ScoreManager.Instance.Score.ToString();
+            m_scoreText.text = "Score: " + ScoreManager.Instance.Score.ToString();
 
             ScoreManager.Instance.UpdateRecord();
 

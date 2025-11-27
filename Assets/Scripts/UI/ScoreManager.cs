@@ -56,9 +56,9 @@ namespace Golf
             m_currentMissedCount = currentMissedCount;
         }
 
-        public void Hit()
+        public void Hit(int value)
         {
-            Score++;
+            Score += value;
         }
 
         public void Miss()
